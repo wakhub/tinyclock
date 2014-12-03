@@ -1,7 +1,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/widget_background">
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/imageView"
+        android:contentDescription="@null"
+        />
 
     <LinearLayout
         android:id="@+id/root"
@@ -10,23 +17,25 @@
         android:orientation="vertical">
 
         <TextClock
-            android:textSize="16dp"
+            android:textSize="@dimen/date_text_size_default"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:format12Hour="MMM dd E"
-            android:format24Hour="MMM dd E"
-            android:gravity="bottom|center_horizontal" />
+            android:format12Hour="@string/date_text_format_12h"
+            android:format24Hour="@string/date_text_format_24h"
+            android:gravity="bottom|center_horizontal"
+            android:id="@+id/dateText"/>
 
         <TextClock
-            android:textSize="24dp"
+            android:textSize="@dimen/time_text_size_default"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:format12Hour="hh:mm a"
-            android:format24Hour="kk:mm"
+            android:format12Hour="@string/time_text_format_12h"
+            android:format24Hour="@string/time_text_format_24h"
             android:gravity="top|center_horizontal"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:id="@+id/timeText"/>
 
     </LinearLayout>
 
