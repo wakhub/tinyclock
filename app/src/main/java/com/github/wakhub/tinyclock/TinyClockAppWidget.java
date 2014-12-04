@@ -5,9 +5,12 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.widget.RemoteViews;
+
+import java.util.Locale;
 
 public class TinyClockAppWidget extends AppWidgetProvider {
 
@@ -43,13 +46,20 @@ public class TinyClockAppWidget extends AppWidgetProvider {
         updateStyle(context, appWidgetManager, newOptions, appWidgetId);
     }
 
+    private void setLanguage(Context context, Locale locale) {
+        Configuration conf = context.getResources().getConfiguration();
+        conf.setLocale(locale);
+        context.getResources().updateConfiguration(conf, context.getResources().getDisplayMetrics());
+
+    }
+
     private void updateStyle(Context context, AppWidgetManager appWidgetManager, Bundle options, int appWidgetId) {
         Resources res = context.getResources();
 
         Settings settings = new Settings(context);
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 
-                int minSize = res.getDimensionPixelSize(R.dimen.widget_size_min);
+        int minSize = res.getDimensionPixelSize(R.dimen.widget_size_min);
 
         int orientation = context.getResources().getConfiguration().orientation;
         float minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, minSize);
