@@ -10,10 +10,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -21,6 +23,8 @@ import android.preference.PreferenceManager;
 import android.provider.AlarmClock;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.io.File;
 
 /**
  * Created by wak on 11/8/14.
@@ -156,6 +160,27 @@ public class SettingsActivity extends Activity {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+                    return false;
+                }
+            });
+
+            pref = findPreference(res.getString(R.string.pref_app_info_key));
+            try {
+                PackageInfo packageInfo = packageManager.getPackageInfo("com.github.wakhub.tinyclock", 0);
+                long apkSize = new File(packageInfo.applicationInfo.publicSourceDir).length();
+                pref.setSummary(String.format(
+                        "Name: %1$s\nVersion: %2$s\nSize: %3$dKB",
+                        res.getString(R.string.app_name),
+                        packageInfo.versionName,
+                        apkSize / 1024L));
+            } catch (PackageManager.NameNotFoundException e) {
+            }
+            pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference preference) {
+                    Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.github.wakhub.tinyclock");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    getActivity().startActivity(intent);
                     return false;
                 }
             });

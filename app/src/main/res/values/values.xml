@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">1x1 clock</string>
-    <string name="background_color_default">#66000000</string>
-    <string name="text_color_default">#ffffff</string>
+    <string name="background_color_default">#99ffffff</string>
+    <string name="text_color_default">#000000</string>
     <string name="message_confirm">Are you sure?</string>
     <string name="message_success_reset_style">Style has been updated by default style</string>
     <string name="message_invalid_color">Invalid color (%s)</string>
@@ -20,6 +20,8 @@
     <string name="pref_open_clock_app_title">Clock app</string>
     <string name="pref_open_datetime_settings_key">openDatetimeSettings</string>
     <string name="pref_open_datetime_settings_title">Date and time settings</string>
+    <string name="pref_app_info_key">appInfo</string>
+    <string name="pref_app_info_title">App information</string>
     <string name="date_text_format_12h">MMM dd E</string>
     <string name="date_text_format_24h">MMM dd E</string>
     <string name="time_text_format_12h">hh:mm a</string>
@@ -28,5 +30,5 @@
     <dimen name="date_text_size_default">16sp</dimen>
     <dimen name="time_text_size_default">24sp</dimen>
     <dimen name="widget_size_min">40dp</dimen>
-    <integer name="widget_corner">5</integer>
+    <dimen name="widget_corner">3dp</dimen>
 </resources>

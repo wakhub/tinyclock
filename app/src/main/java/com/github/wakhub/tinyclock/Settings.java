@@ -6,10 +6,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.CornerPathEffect;
-import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.drawable.ShapeDrawable;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.preference.PreferenceManager;
 
 /**
@@ -28,7 +27,7 @@ public class Settings {
 
     public int getTextColor() {
         Resources res = context.getResources();
-        int color = Color.WHITE;
+        int color = Color.BLACK;
         try {
             color = Color.parseColor(getTextColorString());
         } catch (IllegalArgumentException e) {
@@ -50,21 +49,27 @@ public class Settings {
 
     public Bitmap getBackgroundBitmap(int width, int height) {
         Resources res = context.getResources();
-        ShapeDrawable drawable = new ShapeDrawable();
-        Paint paint = drawable.getPaint();
-        paint.setColor(getBackgroundColor());
-        paint.setPathEffect(new CornerPathEffect(res.getInteger(R.integer.widget_corner)));
+
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        canvas.drawRect(0, 0, width, height, paint);
 
-        canvas.drawBitmap(bitmap, new Matrix(), null);
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(getBackgroundColor());
+        paint.setStyle(Paint.Style.FILL);
+
+        canvas.drawARGB(0, 0, 0, 0);
+        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        int radius = res.getDimensionPixelSize(R.dimen.widget_corner);
+        canvas.drawRoundRect(new RectF(rect), radius, radius, paint);
+
+        canvas.drawBitmap(bitmap, rect, rect, paint);
         return bitmap;
     }
 
     public int getBackgroundColor() {
         Resources res = context.getResources();
-        int color = Color.BLACK;
+        int color = Color.WHITE;
         try {
             color = Color.parseColor(getBackgroundColorString());
         } catch (IllegalArgumentException e) {

@@ -45,28 +45,29 @@ public class TinyClockAppWidget extends AppWidgetProvider {
 
     private void updateStyle(Context context, AppWidgetManager appWidgetManager, Bundle options, int appWidgetId) {
         Resources res = context.getResources();
-        int minSize = res.getDimensionPixelSize(R.dimen.widget_size_min);
+
+        Settings settings = new Settings(context);
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+
+                int minSize = res.getDimensionPixelSize(R.dimen.widget_size_min);
 
         int orientation = context.getResources().getConfiguration().orientation;
-        int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, minSize);
-        int maxWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH, minSize);
-        int minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, minSize);
-        int maxHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, minHeight);
-        int width;
-        int height;
+        float minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, minSize);
+        float maxWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH, minSize);
+        float minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, minSize);
+        float maxHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, minSize);
+        float density = context.getResources().getDisplayMetrics().density;
         /*
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             width = maxWidth;
             height = minHeight;
         } else {
         */
-        width = minWidth;
-        height = maxHeight;
-
-        Settings settings = new Settings(context);
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+        int width = Math.round(minWidth * density);
+        int height = Math.round(maxHeight * density);
         remoteViews.setImageViewBitmap(R.id.imageView, settings.getBackgroundBitmap(width, height));
-        int textColor=  settings.getTextColor();
+
+        int textColor = settings.getTextColor();
         remoteViews.setTextColor(R.id.dateText, textColor);
         remoteViews.setTextColor(R.id.timeText, textColor);
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);

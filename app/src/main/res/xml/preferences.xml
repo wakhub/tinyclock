@@ -20,4 +20,7 @@
     <Preference
         android:key="@string/pref_reset_style_key"
         android:title="@string/pref_reset_style_title"/>
+    <Preference
+        android:key="@string/pref_app_info_key"
+        android:title="@string/pref_app_info_title"/>
 </PreferenceScreen>
