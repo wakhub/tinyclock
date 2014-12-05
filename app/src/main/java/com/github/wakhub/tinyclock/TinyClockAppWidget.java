@@ -5,12 +5,10 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RemoteViews;
-
-import java.util.Locale;
 
 public class TinyClockAppWidget extends AppWidgetProvider {
 
@@ -23,6 +21,7 @@ public class TinyClockAppWidget extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        Log.d(TAG, String.format("onUpdate: %s", appWidgetIds));
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
 
         Intent intent = new Intent(context, SettingsActivity.class);
@@ -46,12 +45,13 @@ public class TinyClockAppWidget extends AppWidgetProvider {
         updateStyle(context, appWidgetManager, newOptions, appWidgetId);
     }
 
+    /*
     private void setLanguage(Context context, Locale locale) {
         Configuration conf = context.getResources().getConfiguration();
         conf.setLocale(locale);
         context.getResources().updateConfiguration(conf, context.getResources().getDisplayMetrics());
-
     }
+    */
 
     private void updateStyle(Context context, AppWidgetManager appWidgetManager, Bundle options, int appWidgetId) {
         Resources res = context.getResources();
@@ -61,18 +61,9 @@ public class TinyClockAppWidget extends AppWidgetProvider {
 
         int minSize = res.getDimensionPixelSize(R.dimen.widget_size_min);
 
-        int orientation = context.getResources().getConfiguration().orientation;
         float minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH, minSize);
-        float maxWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_WIDTH, minSize);
-        float minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, minSize);
         float maxHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MAX_HEIGHT, minSize);
         float density = context.getResources().getDisplayMetrics().density;
-        /*
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            width = maxWidth;
-            height = minHeight;
-        } else {
-        */
         int width = Math.round(minWidth * density);
         int height = Math.round(maxHeight * density);
         remoteViews.setImageViewBitmap(R.id.imageView, settings.getBackgroundBitmap(width, height));

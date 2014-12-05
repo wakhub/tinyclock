@@ -27,7 +27,7 @@
     <string name="time_text_format_12h">hh:mm a</string>
     <string name="time_text_format_24h">kk:mm</string>
 
-    <dimen name="date_text_size_default">16sp</dimen>
+    <dimen name="date_text_size_default">18sp</dimen>
     <dimen name="time_text_size_default">24sp</dimen>
     <dimen name="widget_size_min">40dp</dimen>
     <dimen name="widget_corner">3dp</dimen>

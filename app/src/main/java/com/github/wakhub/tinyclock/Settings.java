@@ -10,11 +10,16 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 /**
+ * The class access to SharedPreferences
+ *
  * Created by wak on 12/3/14.
  */
 public class Settings {
+
+    private static final String TAG = Settings.class.getSimpleName();
 
     private final Context context;
 
@@ -26,23 +31,24 @@ public class Settings {
     }
 
     public int getTextColor() {
-        Resources res = context.getResources();
         int color = Color.BLACK;
         try {
             color = Color.parseColor(getTextColorString());
         } catch (IllegalArgumentException e) {
+            onParseError(e);
         }
         return color;
     }
 
     public String getTextColorString() {
         Resources res = context.getResources();
-        String colorString = preferences.getString(res.getString(R.string.text_color_default), "white");
+        String colorString = preferences.getString(res.getString(R.string.text_color_default), "black");
         try {
             String tmpColorString = preferences.getString(res.getString(R.string.pref_text_color_key), colorString);
             Color.parseColor(tmpColorString);
             colorString = tmpColorString;
         } catch (IllegalArgumentException e) {
+            onParseError(e);
         }
         return colorString;
     }
@@ -68,24 +74,29 @@ public class Settings {
     }
 
     public int getBackgroundColor() {
-        Resources res = context.getResources();
         int color = Color.WHITE;
         try {
             color = Color.parseColor(getBackgroundColorString());
         } catch (IllegalArgumentException e) {
+            onParseError(e);
         }
         return color;
     }
 
     public String getBackgroundColorString() {
         Resources res = context.getResources();
-        String colorString = preferences.getString(res.getString(R.string.background_color_default), "black");
+        String colorString = preferences.getString(res.getString(R.string.background_color_default), "white");
         try {
             String tmpColorString = preferences.getString(res.getString(R.string.pref_background_color_key), colorString);
             Color.parseColor(tmpColorString);
             colorString = tmpColorString;
         } catch (IllegalArgumentException e) {
+            onParseError(e);
         }
         return colorString;
+    }
+
+    private void onParseError(IllegalArgumentException e) {
+        Log.d(TAG, "Failed to parse color", e);
     }
 }

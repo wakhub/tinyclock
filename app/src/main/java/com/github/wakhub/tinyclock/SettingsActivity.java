@@ -1,10 +1,11 @@
 package com.github.wakhub.tinyclock;
 
+import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.appwidget.AppWidgetManager;
-import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,13 +21,15 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.provider.AlarmClock;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.File;
 
 /**
+ * Activity for changing settings
+ *
  * Created by wak on 11/8/14.
  */
 public class SettingsActivity extends Activity {
@@ -50,8 +53,11 @@ public class SettingsActivity extends Activity {
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
     }
 
     @Override
@@ -96,15 +102,16 @@ public class SettingsActivity extends Activity {
 
             PackageManager packageManager = getActivity().getPackageManager();
 
-            for (int i = 0; i < CLOCK_APPS.length; i++) {
-                String packageName = CLOCK_APPS[i][0];
-                String className = CLOCK_APPS[i][1];
+            for (String[] item : CLOCK_APPS) {
+                String packageName = item[0];
+                String className = item[1];
                 try {
                     ComponentName cn = new ComponentName(packageName, className);
                     packageManager.getActivityInfo(cn, PackageManager.GET_META_DATA);
                     clockAppComponentName = cn;
                     break;
                 } catch (PackageManager.NameNotFoundException e) {
+                    onNameNotFound(e);
                 }
             }
 
@@ -138,6 +145,7 @@ public class SettingsActivity extends Activity {
                         pref.setIcon(icon);
                     }
                 } catch (PackageManager.NameNotFoundException e) {
+                    onNameNotFound(e);
                 }
             }
             pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -155,6 +163,7 @@ public class SettingsActivity extends Activity {
                     pref.setIcon(icon);
                 }
             } catch (PackageManager.NameNotFoundException e) {
+                onNameNotFound(e);
             }
             pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -174,6 +183,7 @@ public class SettingsActivity extends Activity {
                         packageInfo.versionName,
                         apkSize / 1024L));
             } catch (PackageManager.NameNotFoundException e) {
+                onNameNotFound(e);
             }
             pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
@@ -199,6 +209,7 @@ public class SettingsActivity extends Activity {
                     .setMessage(R.string.message_confirm)
                     .setNegativeButton(android.R.string.cancel, null)
                     .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @SuppressLint("CommitPrefEdits")
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -231,19 +242,15 @@ public class SettingsActivity extends Activity {
             getActivity().sendBroadcast(intent);
         }
 
-        public void onClickOpenClockApp() {
+        private void onClickOpenClockApp() {
             Intent clockIntent = new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER);
             clockIntent.setComponent(clockAppComponentName);
 
-            if (clockIntent == null) {
-                try {
-                    startActivity(new Intent(AlarmClock.ACTION_SHOW_ALARMS));
-                } catch (ActivityNotFoundException e) {
-                    startActivity(new Intent(AlarmClock.ACTION_SET_ALARM));
-                }
-            } else {
-                startActivity(clockIntent);
-            }
+            startActivity(clockIntent);
+        }
+
+        private void onNameNotFound(PackageManager.NameNotFoundException e) {
+            Log.d(TAG, "Package name not found", e);
         }
     }
 }

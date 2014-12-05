@@ -1,5 +1,6 @@
 .env
 .gradle
+tmp
 # Android Studio
 .idea
 
