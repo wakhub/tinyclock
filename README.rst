@@ -2,6 +2,8 @@
 tinyclock
 =========
 
+.. image:: https://raw.githubusercontent.com/wakhub/tinyclock/master/app/src/main/res/drawable-xxhdpi/preview.png
+
 1x1 clock widget for Android
 
 https://play.google.com/store/apps/details?id=com.github.wakhub.tinyclock
