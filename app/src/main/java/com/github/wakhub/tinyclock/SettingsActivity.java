@@ -1,8 +1,21 @@
+/**
+ * Copyright (C) 2014 wak
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package com.github.wakhub.tinyclock;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.appwidget.AppWidgetManager;
@@ -19,8 +32,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v4.preference.PreferenceFragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -32,9 +47,11 @@ import java.io.File;
  *
  * Created by wak on 11/8/14.
  */
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends ActionBarActivity {
 
     private static final String TAG = SettingsActivity.class.getSimpleName();
+
+    private static final String SETTINGS_APP_PACKAGE_NAME = "com.android.settings";
 
     // http://stackoverflow.com/questions/3590955/intent-to-launch-the-clock-application-on-android
     private static final String[][] CLOCK_APPS = {
@@ -49,15 +66,14 @@ public class SettingsActivity extends Activity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getFragmentManager().beginTransaction()
+        getSupportFragmentManager()
+                .beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
 
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeButtonEnabled(true);
-        }
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeButtonEnabled(true);
     }
 
     @Override
@@ -158,7 +174,7 @@ public class SettingsActivity extends Activity {
 
             pref = findPreference(res.getString(R.string.pref_open_datetime_settings_key));
             try {
-                Drawable icon = packageManager.getApplicationIcon("com.android.settings");
+                Drawable icon = packageManager.getApplicationIcon(SETTINGS_APP_PACKAGE_NAME);
                 if (icon != null) {
                     pref.setIcon(icon);
                 }
@@ -189,7 +205,7 @@ public class SettingsActivity extends Activity {
             pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
-                    Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.github.wakhub.tinyclock");
+                    Uri uri = Uri.parse(res.getString(R.string.url_app));
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                     getActivity().startActivity(intent);
                     return false;
@@ -251,7 +267,7 @@ public class SettingsActivity extends Activity {
         }
 
         private void onNameNotFound(PackageManager.NameNotFoundException e) {
-            Log.d(TAG, "Package name not found", e);
+            Log.d(TAG, String.format("Name not found: %s", e.getMessage()));
         }
     }
 }
