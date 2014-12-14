@@ -37,7 +37,7 @@ public class SettingsActivity extends Activity {
     private static final String TAG = SettingsActivity.class.getSimpleName();
 
     // http://stackoverflow.com/questions/3590955/intent-to-launch-the-clock-application-on-android
-    private static final String CLOCK_APPS[][] = {
+    private static final String[][] CLOCK_APPS = {
             {"com.htc.android.worldclock", "com.htc.android.worldclock.WorldClockTabControl"},
             {"com.android.deskclock", "com.android.deskclock.AlarmClock"},
             {"com.google.android.deskclock", "com.android.deskclock.DeskClock"},
@@ -175,11 +175,12 @@ public class SettingsActivity extends Activity {
 
             pref = findPreference(res.getString(R.string.pref_app_info_key));
             try {
-                PackageInfo packageInfo = packageManager.getPackageInfo("com.github.wakhub.tinyclock", 0);
+                PackageInfo packageInfo = packageManager.getPackageInfo(
+                        getActivity().getApplication().getPackageName(), 0);
                 long apkSize = new File(packageInfo.applicationInfo.publicSourceDir).length();
                 pref.setSummary(String.format(
                         "Name: %1$s\nVersion: %2$s\nSize: %3$dKB",
-                        res.getString(R.string.app_name),
+                        packageInfo.packageName,
                         packageInfo.versionName,
                         apkSize / 1024L));
             } catch (PackageManager.NameNotFoundException e) {
