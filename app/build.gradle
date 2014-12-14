@@ -8,8 +8,8 @@ android {
         applicationId "com.github.wakhub.tinyclock"
         minSdkVersion 17
         targetSdkVersion 21
-        versionCode 4
-        versionName "1.2.1"
+        versionCode 5
+        versionName "1.2.2"
     }
 
     signingConfigs {
