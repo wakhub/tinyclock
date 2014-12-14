@@ -50,11 +50,6 @@ android {
     }
 }
 
-dependencies {
-    compile 'com.android.support:appcompat-v7:21.0.2'
-    compile project(':android-support-v4-preferencefragmen')
-}
-
 File signingPropertiesFile = rootProject.file('credentials/release.keystore.properties')
 if (signingPropertiesFile.exists()) {
     Properties props = new Properties()

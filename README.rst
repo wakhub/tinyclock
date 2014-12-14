@@ -10,8 +10,6 @@ https://play.google.com/store/apps/details?id=com.github.wakhub.tinyclock
 TODO
 ====
 
-- Delete AppCompat because the package size is too big (About 900K)
-- Develop branch
 - Tests
 - TravisCI
 

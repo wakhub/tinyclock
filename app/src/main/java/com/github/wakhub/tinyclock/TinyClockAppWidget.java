@@ -20,7 +20,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 /**
@@ -31,7 +30,7 @@ public class TinyClockAppWidget extends AppWidgetProvider {
     private static final String TAG = TinyClockAppWidget.class.getSimpleName();
 
     @Override
-    public void onReceive(@NonNull Context context, @NonNull Intent intent) {
+    public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
         ComponentName componentName = new ComponentName(context, TinyClockAppWidget.class);

@@ -16,6 +16,8 @@
 package com.github.wakhub.tinyclock;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.appwidget.AppWidgetManager;
@@ -32,10 +34,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.support.v4.preference.PreferenceFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -47,7 +47,7 @@ import java.io.File;
  *
  * Created by wak on 11/8/14.
  */
-public class SettingsActivity extends ActionBarActivity {
+public class SettingsActivity extends Activity {
 
     private static final String TAG = SettingsActivity.class.getSimpleName();
 
@@ -67,14 +67,16 @@ public class SettingsActivity extends ActionBarActivity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getSupportFragmentManager()
+        getFragmentManager()
                 .beginTransaction()
                 .replace(android.R.id.content, new SettingsFragment())
                 .commit();
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
     }
 
     @Override
