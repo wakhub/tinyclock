@@ -12,6 +12,14 @@ public class TinyClockAppWidget extends AppWidgetProvider {
     private static final String TAG = TinyClockAppWidget.class.getSimpleName();
 
     @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+        ComponentName componentName = new ComponentName(context, TinyClockAppWidget.class);
+        onUpdate(context, appWidgetManager, appWidgetManager.getAppWidgetIds(componentName));
+    }
+
+    @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         Log.d(TAG, "onUpdate");
 
