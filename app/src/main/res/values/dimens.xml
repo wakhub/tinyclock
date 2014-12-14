@@ -15,5 +15,8 @@
  ~ limitations under the License.
  -->
 <resources>
-    <string name="app_name">1x1 clock DEBUG</string>
+    <dimen name="date_text_size_default">18sp</dimen>
+    <dimen name="time_text_size_default">24sp</dimen>
+    <dimen name="widget_size_min">40dp</dimen>
+    <dimen name="widget_corner">3dp</dimen>
 </resources>

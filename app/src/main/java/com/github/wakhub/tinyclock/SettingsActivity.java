@@ -53,6 +53,7 @@ public class SettingsActivity extends ActionBarActivity {
 
     private static final String SETTINGS_APP_PACKAGE_NAME = "com.android.settings";
 
+    // TODO: Move into res?
     // http://stackoverflow.com/questions/3590955/intent-to-launch-the-clock-application-on-android
     private static final String[][] CLOCK_APPS = {
             {"com.htc.android.worldclock", "com.htc.android.worldclock.WorldClockTabControl"},
