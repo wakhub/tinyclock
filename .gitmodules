@@ -1,0 +1,3 @@
+[submodule "submodules/android-support-v4-preferencefragment"]
+	path = submodules/android-support-v4-preferencefragment
+	url = https://github.com/wakhub/android-support-v4-preferencefragment.git
